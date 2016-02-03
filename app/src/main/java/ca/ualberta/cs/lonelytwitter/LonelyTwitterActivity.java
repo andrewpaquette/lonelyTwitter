@@ -1,5 +1,19 @@
 package ca.ualberta.cs.lonelytwitter;
 
+
+
+/**
+ * Learning JavaDocs for Lab 5
+ * LonelyTwitter let's you input text and view it later.
+ *
+ * @author Andrew Paquette, but not really
+ * @version 1.57, 12/19/03
+ * @since 2016-02-02
+ *
+ */
+
+
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,8 +37,14 @@ public class LonelyTwitterActivity extends Activity {
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
-	
-	/** Called when the activity is first created. */
+
+	/**
+	 * onCreate is called when the activity is first created.
+	 * it gathers related classes to the main activity
+	 *
+	 * @see OnStart()
+	 * which is similar but runs more often.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,11 +61,17 @@ public class LonelyTwitterActivity extends Activity {
 				String text = bodyText.getText().toString();
 				saveInFile(text, new Date(System.currentTimeMillis()));
 				finish();
-
 			}
 		});
 	}
 
+	/**
+	 * onStart is called whenever the activity is displayed.
+	 * it gathers related classes to the main activity,
+	 * and perhaps does some stuff.
+	 * @see OnStart()
+	 * which is similar but runs less often.
+	 */
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
@@ -56,6 +82,11 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList.setAdapter(adapter);
 	}
 
+	/**
+	 * loadFromFile populates the application with whatever currently resides
+	 * in the file found at FILENAME.
+	 * @return an array of loaded text.
+	 */
 	private String[] loadFromFile() {
 		ArrayList<String> tweets = new ArrayList<String>();
 		try {
@@ -66,7 +97,6 @@ public class LonelyTwitterActivity extends Activity {
 				tweets.add(line);
 				line = in.readLine();
 			}
-
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +106,12 @@ public class LonelyTwitterActivity extends Activity {
 		}
 		return tweets.toArray(new String[tweets.size()]);
 	}
-	
+
+	/**
+	 * saveInFile takes text and date and saves them to file.
+	 * @param text text to be saved
+	 * @param date time to be saved alongside entered text
+	 */
 	private void saveInFile(String text, Date date) {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
@@ -92,4 +127,22 @@ public class LonelyTwitterActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
+
+
+	/**
+	 * JAVADOCS SYNTAX
+	 * Does whatever
+	 * <p>HTML tags work!!</p>
+	 * @since 1.2.1
+	 * @see lonelyTwitterActivity for more information
+	 * except don't bc that's this class
+	 *
+	 * @author Andrew Paquette
+	 * @version 1.57, 12/19/03
+	 *
+	 * (the following is a lie)
+	 * @param intent This is the intent to be run immediately after hitting start
+	 * @return the value
+	 */
+
 }

@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -61,7 +62,6 @@ public class LonelyTwitterActivity extends Activity {
 
                 AsyncTask<NormalTweet, Void, Void> execute = new ElasticsearchTweetController.AddTweetTask();
                 execute.execute(latestTweet);
-                // old saveInFile() location;
 
                 setResult(RESULT_OK);
             }
@@ -72,15 +72,10 @@ public class LonelyTwitterActivity extends Activity {
             public void onClick(View v) {
                 String text = bodyText.getText().toString();
 
-                ElasticsearchTweetController.SearchTweetsTask searchTweetsTask = new ElasticsearchTweetController.SearchTweetsTask();
-                try {
-                    searchTweetsTask.execute(text);
-                    tweets = searchTweetsTask.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                // test here
+                // tweets = null;
+
+                searchFromES(text);
 
                 adapter.notifyDataSetChanged();
 
@@ -92,6 +87,7 @@ public class LonelyTwitterActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+
         loadFromES("");
 
         // Binds tweet list with view, so when our array updates, the view updates with it
@@ -100,6 +96,18 @@ public class LonelyTwitterActivity extends Activity {
     }
 
 
+    private void searchFromES(String search) {
+        ElasticsearchTweetController.SearchTweetsTask searchTweetsTask
+                = new ElasticsearchTweetController.SearchTweetsTask();
+        try {
+            searchTweetsTask.execute(search);
+            tweets = searchTweetsTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private void loadFromES(String search) {

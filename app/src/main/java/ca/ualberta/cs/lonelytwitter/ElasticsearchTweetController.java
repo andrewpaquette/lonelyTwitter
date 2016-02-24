@@ -83,19 +83,37 @@ public class ElasticsearchTweetController {
             verifyClient();
             ArrayList<Tweet> tweets = new ArrayList<Tweet>();
             String query = "{\n" +
-                    "    \"query\": {\n" +
-                    "        \"filtered\" : {\n" +
-                    "            \"query\" : {\n" +
-                    "                \"query_string\" : {\n" +
-                    "                    \"query\" : " + searchStrings[0] + "\n" +
-                    "                }\n" +
-                    "            },\n" +
-                    "            \"filter\" : {\n" +
-                    "                \"term\" : { \"user\" : \"kimchy\" }\n" +
-                    "            }\n" +
-                    "        }\n" +
-                    "    }\n" +
+                    "    \"_index\": \"testing\" {\n" +
+                    "    \"_type\" : \"tweet\" {\n" +
+                    "    \"query_string\" : " + searchStrings[0] + "\n" +
                     "}";
+
+            // this ES-type query:
+//            {
+//                    "_index" : "testing",
+//                    "_type" : "tweet",
+//                    "_id" : "SGmP7xjiQP6qaph-mS9y7A",
+//                    "_score" : 1.0,
+//                    "_source":{"date":"2016-02-23T21:29:32-0500","message":"I\u0027m freaked out "}
+//            }
+            // end
+
+            // example query:
+//                    "{\n" +
+//                    "    \"query\": {\n" +
+//                    "        \"filtered\" : {\n" +
+//                    "            \"query\" : {\n" +
+//                    "                \"query_string\" : {\n" +
+//                    "                    \"query\" : \"test\"\n" +
+//                    "                }\n" +
+//                    "            },\n" +
+//                    "            \"filter\" : {\n" +
+//                    "                \"term\" : { \"user\" : \"kimchy\" }\n" +
+//                    "            }\n" +
+//                    "        }\n" +
+//                    "    }\n" +
+//                    "}";
+            // end
 
             Search search = new Search.Builder(query)
                     // multiple index or types can be added.
